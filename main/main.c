@@ -45,13 +45,11 @@ int main() {
     gpio_set_dir(MOTOR_3, GPIO_OUT);
     gpio_set_dir(MOTOR_4, GPIO_OUT);
 
-    bool led_r_state = false;
     int step_index = 0;
 
     while (true) {
-        if (!gpio_get(BTN_PIN)) {
-            led_r_state = !led_r_state;  
-            gpio_put(LED_PIN_R, led_r_state);  
+        if (!gpio_get(BTN_PIN)) { 
+            gpio_put(LED_PIN_R, 1);  
 
             for(int i = 0; i < 2048; i++){
                 set_motor_pins(step_sequence[step_index]);
@@ -61,6 +59,7 @@ int main() {
 
             // Desliga todos os pinos do motor quando o botão é liberado
             set_motor_pins(0);
+            gpio_put(LED_PIN_R, 0);
             sleep_ms(200);  
         }
     }
